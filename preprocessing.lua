@@ -1,7 +1,7 @@
 require 'nn'
 require 'torch'
 require 'math'
-require 'unsup'
+require 'kmeans'
 
 data_path = '/scratch/courses/DSGA1008/A2/binary/unlabeled_X.bin'
 image_count = 100000
@@ -58,5 +58,5 @@ whitened = torch.mm(W_zca, random_patches_flattened:transpose(1,2)):transpose(1,
 
 -- k-means
 
-kmeans = unsup.kmeans(whitened:double(), num_centroids, 100, 100)
+centroids = kmeans(whitened:double(), num_centroids, 100, 100)
 
