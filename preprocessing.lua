@@ -19,7 +19,11 @@ tensor:float()
 
 -- Random Patch Selection 
 
-image = tensor[math.random(1, image_count)]
-patch_x = math.random(1, image_width - receptive_field_size + 1)
-patch_y = math.random(1, image_height - receptive_field_size + 1)
-patch = image[{{}, {patch_x, patch_x + receptive_field_size - 1}, {patch_y, patch_y + receptive_field_size - 1}}]
+random_patches = torch.FloatTensor(random_sample_count, image_channels, receptive_field_size, receptive_field_size)
+for i = 1, random_sample_count do
+    image = tensor[math.random(1, image_count)]
+    patch_x = math.random(1, image_width - receptive_field_size + 1)
+    patch_y = math.random(1, image_height - receptive_field_size + 1)
+    patch = image[{{}, {patch_x, patch_x + receptive_field_size - 1}, {patch_y, patch_y + receptive_field_size - 1}}]
+    random_patches[i] = patch
+end
