@@ -1,3 +1,4 @@
+require 'constants'
 require 'nn'
 require 'torch'
 require 'math'
@@ -5,15 +6,6 @@ require 'xlua'
 require 'kmeans'
 
 data_path = '/scratch/courses/DSGA1008/A2/binary/unlabeled_X.bin'
-image_count = 100000
-image_width = 96
-image_height = 96
-image_channels = 3
-
-random_sample_count = 10000
-receptive_field_size = 6
-
-num_centroids = 1600
 
 -- Load training data
 print("Loading training data")
@@ -70,4 +62,10 @@ function dummy(x,y,z)
 end
 
 centroids = kmeans(whitened:double(), num_centroids, 100, 100, callback, true)
+
+-- Output
+print("Saving results")
+
 torch.save('centroids.data', centroids, 'ascii')
+torch.save('whitening_matrix.data', W_zca, 'ascii')
+torch.save('feature_means.data', means, 'ascii')
