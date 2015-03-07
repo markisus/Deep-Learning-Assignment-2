@@ -1,6 +1,7 @@
 require 'nn'
 require 'torch'
 require 'math'
+require 'unsup'
 
 data_path = '/scratch/courses/DSGA1008/A2/binary/unlabeled_X.bin'
 image_count = 100000
@@ -10,6 +11,8 @@ image_channels = 3
 
 random_sample_count = 1000
 receptive_field_size = 10
+
+num_centroids = 10
 
 data = torch.DiskFile(data_path, 'r', true)
 data:binary():littleEndianEncoding()
@@ -51,8 +54,9 @@ Q, D, Q_T = torch.svd(covariances)
 D_inv_sqrt = torch.pow(D, -1):sqrt():resize(patch_size, 1)
 D_isQ_t = Q_T:cmul(D_inv_sqrt:expand(patch_size, patch_size))
 W_zca = torch.mm(Q, D_isQ_t)
-
-whitened = torch.mm(W_zca, random_patches_flattened)
+whitened = torch.mm(W_zca, random_patches_flattened:transpose(1,2)):transpose(1,2)
 
 -- k-means
+
+kmeans = unsup.kmeans(whitened:double(), num_centroids, 100, 100)
 
