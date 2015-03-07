@@ -59,4 +59,4 @@ whitened = torch.mm(W_zca, random_patches_flattened:transpose(1,2)):transpose(1,
 -- k-means
 
 centroids = kmeans(whitened:double(), num_centroids, 100, 100)
-
+torch.save('centroids.data', centroids, 'ascii')
