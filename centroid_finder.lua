@@ -30,14 +30,11 @@ while patch_count < random_sample_count do
     patch_count = patch_count + 1
     random_patches[patch_count] = patch
     mean = random_patches[{patch_count, {}, {}, {}}]:mean()
-    std = random_patches[{patch_count, {}, {}, {}}]:std()
-    if std == 0 then
-       print(string.format('Discarding patch from img %d, x:%d, y:%d for 0 std', image_index, patch_x, patch_y))
-       goto continue
-    end
+    std = random_patches[{patch_count, {}, {}, {}}]:std()       
     random_patches[{patch_count, {}, {}, {}}]:add(-mean)
-    random_patches[{patch_count, {}, {}, {}}]:div(std)
-    ::continue::
+    if std ~= 0 then
+        random_patches[{patch_count, {}, {}, {}}]:div(std)
+    end
 end
 
 -- Whitening
