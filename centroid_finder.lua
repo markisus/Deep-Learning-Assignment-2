@@ -5,14 +5,14 @@ require 'math'
 require 'xlua'
 require 'kmeans'
 
-data_path = '/scratch/courses/DSGA1008/A2/binary/unlabeled_X.bin'
+unlabeled_data_path = '/scratch/courses/DSGA1008/A2/binary/unlabeled_X.bin'
 
 -- Load training data
 print("Loading training data")
 
-data = torch.DiskFile(data_path, 'r', true)
+data = torch.DiskFile(unlabeled_data_path, 'r', true)
 data:binary():littleEndianEncoding()
-tensor = torch.ByteTensor(image_count, image_channels, image_width, image_height)
+tensor = torch.ByteTensor(unlabeled_image_count, image_channels, image_width, image_height)
 data:readByte(tensor:storage())
 tensor:float()
 
@@ -22,7 +22,7 @@ random_patches = torch.FloatTensor(random_sample_count, image_channels, receptiv
 patch_count = 0
 while patch_count < random_sample_count do
     xlua.progress(patch_count, random_sample_count)
-    image_index = math.random(1, image_count)
+    image_index = math.random(1, unlabeled_image_count)
     image = tensor[image_index]
     patch_x = math.random(1, image_width - receptive_field_size + 1)
     patch_y = math.random(1, image_height - receptive_field_size + 1)
