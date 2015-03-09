@@ -1,3 +1,6 @@
 Deep Learning 2015 Spring A2
 
-The "unsupervised learning" is done via centroid_finder.lua which produces centroids.data
+centroid_finder -> centroids.data, feature_means.data, whitening_matrix.data
+extract_features -> train_features.data
+supervised_learning -> model.data
+classify -> ...
