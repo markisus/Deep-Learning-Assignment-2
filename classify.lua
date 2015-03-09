@@ -22,6 +22,7 @@ for i = 1, test_image_count do
     image = test_data[i]
     patches = patchify(image)
     features = extract_features(patches)
+    features:resize(1, features:size()[1], features:size()[2]) --batch size 1
     classification = net:forward(features)
 
     best_index = 1
