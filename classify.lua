@@ -4,6 +4,12 @@ require 'math'
 require 'constants'
 require 'xlua'
 
+cmd = torch.CmdLine()
+cmd:option('-start', 1)
+cmd:option('-finish', test_image_count)
+cmd:option('-label', 1)
+params = cmd:parse(arg)
+
 print("Loading test data")
 data = torch.DiskFile(test_data_path, 'r', true)
 data:binary():littleEndianEncoding()
@@ -17,7 +23,7 @@ net = torch.load(trained_model_path, 'ascii')
 print("Classifying")
 guesses = torch.IntTensor(test_image_count)
 
-for i = 1, test_image_count do
+for i = params.start, params.finish do
     xlua.progress(i, test_image_count)
     image = test_data[i]
     patches = patchify(image)
@@ -40,4 +46,4 @@ for i = 1, test_image_count do
 end
 
 print("Saving classifications")
-torch.save("classifications.data", guesses, 'ascii')
+torch.save("classifications"..params.label..".data", guesses, 'ascii')

@@ -4,8 +4,8 @@ unlabeled_data_path = '/scratch/courses/DSGA1008/A2/binary/unlabeled_X.bin'
 train_data_path = '/scratch/courses/DSGA1008/A2/binary/train_X.bin'
 train_labels_path = '/scratch/courses/DSGA1008/A2/binary/train_y.bin'
 test_data_path = '/scratch/courses/DSGA1008/A2/binary/test_X.bin'
-train_features_path = 'train_features.data'
-trained_model_path = 'model.data'
+train_features_path = '/scratch/ml4133/train_features.data'
+trained_model_path = '/scratch/ml4133/model.data'
 
 unlabeled_image_count = 100000
 train_image_count = 500
