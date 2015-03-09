@@ -23,7 +23,7 @@ hidden_layer_count = 200
 net = nn.Sequential()
 net:add(nn.Reshape(flat_size, true)) --reshape with batch mode
 net:add(nn.Linear(flat_size, hidden_layer_count))
-net:add(nn.PReLU())
+net:add(nn.Tanh())
 net:add(nn.Linear(hidden_layer_count, num_categories))
 
 print("Training")
@@ -43,6 +43,12 @@ while true do
             batch = training_data[{{batch_lower, batch_upper}, {}, {}}]
             batch_labels = labels[{{batch_lower, batch_upper}}]:double()
             criterion:forward(net:forward(batch), batch_labels)
+	    nancheck = torch.ne(net.output, net.output):byte()
+	    if torch.any(nancheck) then
+	       print("nancheck failed!")
+	       print(nancheck)
+	       goto nancheck_fail
+	    end
       	    net:zeroGradParameters()
             net:backward(batch, criterion:backward(net.output, batch_labels))
             net:updateParameters(learning_rate)
@@ -51,4 +57,6 @@ while true do
      print("Saving Model")
      torch.save(trained_model_path, net, 'ascii')
 end
+
+::nancheck_fail::
 

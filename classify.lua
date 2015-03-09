@@ -8,6 +8,7 @@ cmd = torch.CmdLine()
 cmd:option('-start', 1)
 cmd:option('-finish', test_image_count)
 cmd:option('-label', 1)
+cmd:option('-model', trained_model_path)
 params = cmd:parse(arg)
 
 print("Loading test data")
@@ -17,8 +18,8 @@ tensor = torch.ByteTensor(test_image_count, image_channels, image_width, image_h
 data:readByte(tensor:storage())
 test_data = tensor:float()
 
-print("Loading trained neural net")
-net = torch.load(trained_model_path, 'ascii')
+print("Loading trained neural net from "..params.model)
+net = torch.load(params.model, 'ascii')
 
 print("Classifying")
 guesses = torch.IntTensor(test_image_count)
@@ -34,13 +35,16 @@ for i = params.start, params.finish do
     best_index = 1
     best_delta = math.huge
     for guess = 1, num_categories do
+    	print("Guessing "..guess)
     	guess_as_vector = torch.DoubleTensor(num_categories):fill(0)
 	guess_as_vector[guess] = 1
     	delta = criterion:forward(classification, guess_as_vector) 
+	print("Error "..delta)
 	if delta < best_delta then
 	   best_deta = delta
 	   best_index = guess
 	end
+	print("Best guess so far "..best_index)
     end
     guesses[i] = best_index
 end
