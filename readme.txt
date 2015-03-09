@@ -18,4 +18,5 @@ classify -> ...
 
 git clone https://github.com/markisus/Deep-Learning-Assignment-2.git m_and_m
 cd m_and_m
-/scratch/courses/DSGA1008/bin/th classify.lua -start 1 -finish 8000 -label 1 -model /scratch/ml4133/model_epoch17.data > ../result.csv 2> error1
+/scratch/courses/DSGA1008/bin/th classify.lua -start 1 -finish 8000 -label 1 -model /scratch/ml4133/model_epoch17.data
+/scratch/courses/DSGA1008/bin/th results.lua > ../results.csv
