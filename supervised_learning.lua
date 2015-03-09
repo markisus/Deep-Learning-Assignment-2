@@ -49,6 +49,6 @@ while true do
             processed_count = processed_count + batch_size
      end
      print("Saving Model")
-     torch.save(trained_model_path, model, 'ascii')
+     torch.save(trained_model_path, net, 'ascii')
 end
 
