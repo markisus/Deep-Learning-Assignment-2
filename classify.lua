@@ -35,16 +35,16 @@ for i = params.start, params.finish do
     best_index = 1
     best_delta = math.huge
     for guess = 1, num_categories do
-    	print("Guessing "..guess)
+    	--print("Guessing "..guess)
     	guess_as_vector = torch.DoubleTensor(num_categories):fill(0)
 	guess_as_vector[guess] = 1
     	delta = criterion:forward(classification, guess_as_vector) 
-	print("Error "..delta)
+	--print("Error "..delta)
 	if delta < best_delta then
-	   best_deta = delta
+	   best_delta = delta
 	   best_index = guess
 	end
-	print("Best guess so far "..best_index)
+	--print("Best guess so far "..best_index)
     end
     guesses[i] = best_index
 end
